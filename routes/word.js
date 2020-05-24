@@ -30,12 +30,40 @@ router.get('/:id', getWord, async (req, res) => {
     res.json(res.Word)
 })
 
+router.post('/', ifWordExists(false), async (req, res) => {
+    const word = new Word({
+        CategoryId: req.body.CategoryId,
+        WordText : req.body.WordText
+    })
+    try{
+        const newWord = await word.save()
+        res.status(201).json(newWord)
+    }
+    catch(err){
+        res.status(400).json({ message: err.message })
+    }
+})
 
+router.patch('/:id', ifWordExists(true), getWord, async (req, res) => {
+    if(req.body.CategoryId != null){
+        res.Word.CategoryId = req.body.CategoryId
+    }
+    if(req.body.WordText != null){
+        res.Word.WordText = req.body.WordText
+    }
+    try{
+        const updatedWord = await res.Word.save()
+        res.json(updatedWord)
+    }
+    catch(err){
+        res.status(400).json({ message: err.message })
+    }
+})
 
 async function getWord(req, res, next){
     let word
     try{
-        word = await Word.findById(req.params.id)
+        word = await Word.findById(req.params.id).populate('CategoryId')
         if(word == null){
             return res.status(404).json({message : 'Cannot find Word'})
         }
@@ -46,6 +74,28 @@ async function getWord(req, res, next){
 
     res.Word = word
     next()
+}
+
+function ifWordExists(checkIfIdNotExsits){
+    return async function(req, res, next){
+        try{
+            let result
+            const rg = new RegExp("^" + req.body.WordText + "$", "i")
+
+            if(checkIfIdNotExsits){
+                result =  await Word.findOne({WordText: rg, _id: { $ne: req.params.id }})
+            }else{
+                result =  await Word.findOne({WordText: rg })
+            }
+            if(result){
+                return res.status(409).json({message: 'Word already exists'})
+            }
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+        next()
+    }
 }
 
 module.exports = router

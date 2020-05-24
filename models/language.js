@@ -20,14 +20,4 @@ const languageSchema = new mongoose.Schema({
     }
 })
 
-async function isEmailExists(languageName) {
-    const rg = new RegExp("^" + languageName + "$", "i")
-    const result = await mongoose.models['Language'].findOne({ LanguageName: rg })
-    if(result){
-        return false
-    }else{
-        return true
-    }
-}
-
 module.exports = mongoose.model('Language', languageSchema, 'Language')
