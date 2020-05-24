@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
+const schema = mongoose.Schema
 
-const wordSchema = new mongoose.Schema({
+const wordSchema = new schema({
     CategoryId: {
-        type: Object,
-        required: true
+        type: schema.ObjectId,
+        required: true,
+        ref: 'Category'
     },
     WordText: {
         type: String,

@@ -18,7 +18,8 @@
   "homepage": "https://github.com/saurabhverma89/EasyLearnAPI#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.9.15"
+    "mongoose": "^5.9.15",
+    "mongoose-regex-search": "^0.8.24"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",

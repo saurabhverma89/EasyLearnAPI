@@ -16,7 +16,7 @@ router.get('/:id', getCategory, async (req, res) => {
     res.json(res.category)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', ifCategoryNameExists(false), async (req, res) => {
     const category = new Category({
         CategoryName : req.body.CategoryName
     })
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.patch('/:id', getCategory, async (req, res) => {
+router.patch('/:id', ifCategoryNameExists(true), getCategory, async (req, res) => {
     if(req.body.CategoryName != null){
         res.category.CategoryName = req.body.CategoryName
     }
@@ -66,6 +66,28 @@ async function getCategory(req, res, next){
 
     res.category = category
     next()
+}
+
+function ifCategoryNameExists(checkIfIdNotExsits){
+    return async function(req, res, next){
+        try{
+            let result
+            const rg = new RegExp("^" + req.body.CategoryName + "$", "i")
+
+            if(checkIfIdNotExsits){
+                result =  await Category.findOne({CategoryName: rg, _id: { $ne: req.params.id }})
+            }else{
+                result =  await Category.findOne({CategoryName: rg })
+            }
+            if(result){
+                return res.status(409).json({message: 'Category Name already exists'})
+            }
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+        next()
+    }
 }
 
 module.exports = router

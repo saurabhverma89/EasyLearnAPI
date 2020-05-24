@@ -16,11 +16,12 @@ router.get('/:id', getLanguage, async (req, res) => {
     res.json(res.language)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', ifLanguageNameExists(false), ifLanguageCodeExists(false), async (req, res) => {
     const language = new Language({
         LanguageName : req.body.LanguageName,
         LanguageCode : req.body.LanguageCode
     })
+    
     try{
         const newLanguage = await language.save()
         res.status(201).json(newLanguage)
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.patch('/:id', getLanguage, async (req, res) => {
+router.patch('/:id', ifLanguageNameExists(true), ifLanguageCodeExists(true), getLanguage, async (req, res) => {
     if(req.body.LanguageName != null){
         res.language.LanguageName = req.body.LanguageName
     }
@@ -70,6 +71,50 @@ async function getLanguage(req, res, next){
 
     res.language = language
     next()
+}
+
+ function ifLanguageNameExists(checkIfIdNotExsits){
+    return async function(req, res, next){
+        try{
+            let result
+            const rg = new RegExp("^" + req.body.LanguageName + "$", "i")
+
+            if(checkIfIdNotExsits){
+                result =  await Language.findOne({LanguageName: rg, _id: { $ne: req.params.id }})
+            }else{
+                result =  await Language.findOne({LanguageName: rg })
+            }
+            if(result){
+                return res.status(409).json({message: 'Language Name already exists'})
+            }
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+        next()
+    }
+}
+
+function ifLanguageCodeExists(checkIfIdNotExsits){
+    return async function(req, res, next){
+        try{
+            let result
+            const rg = new RegExp("^" + req.body.LanguageCode + "$", "i")
+
+            if(checkIfIdNotExsits){
+                result =  await Language.findOne({LanguageCode: rg, _id: { $ne: req.params.id }})
+            }else{
+                result =  await Language.findOne({LanguageCode: rg })
+            }
+            if(result){
+                return res.status(409).json({message: 'Language Code already exists'})
+            }
+        }
+        catch(err){
+            res.status(500).json({message : err.message})
+        }
+        next()
+    }
 }
 
 module.exports = router

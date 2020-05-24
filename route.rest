@@ -2,7 +2,7 @@ GET http://localhost:3000/language/
 
 ###
 
-GET http://localhost:3000/language/5ec93f6d8f766040285c4031
+GET http://localhost:3000/language/5ecaa05bf52fa92cc8911145
 
 
 ###
@@ -11,22 +11,23 @@ POST http://localhost:3000/language/
 Content-Type: application/json
 
 {
-    "LanguageName": "TestName",
-    "LanguageCode": "TestCode"
+    "LanguageName": "pp",
+    "LanguageCode": "pp"
 } 
 
 ###
 
-DELETE http://localhost:3000/language/5ec93f598f766040285c4030
-
-###
-
-PATCH http://localhost:3000/language/5ec93f6d8f766040285c4031
+PATCH http://localhost:3000/language/5ecaa05bf52fa92cc8911145
 Content-Type: application/json
 
 {
-    "LanguageName": "TestpN"
+    "LanguageName": "test",
+    "LanguageCode" : "hi"
 } 
+
+###
+
+DELETE http://localhost:3000/language/5eca9c43b4cd7105e8270fbc
 
 
 ###
@@ -44,7 +45,7 @@ POST http://localhost:3000/category/
 Content-Type: application/json
 
 {
-    "CategoryName": ""
+    "CategoryName": "asdtesst"
 } 
 
 ###
@@ -53,9 +54,24 @@ DELETE http://localhost:3000/category/5ec94b93c0c24e4ee40a8b57
 
 ###
 
-PATCH http://localhost:3000/category/5ec94b93c0c24e4ee40a8b5
+PATCH http://localhost:3000/category/5ec960081df4924490c09484
 Content-Type: application/json
 
 {
     "CategoryName": "Te"
 } 
+
+
+###
+
+GET http://localhost:3000/word
+
+
+###
+
+GET http://localhost:3000/word/5ec7f5208e4702176d249f5e
+
+###
+
+GET http://localhost:3000/word/Category/5ec584a7cef2d3b62860d3b2
+
