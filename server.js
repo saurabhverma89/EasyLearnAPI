@@ -17,9 +17,11 @@ app.use(express.json())
 const languageRouter = require('./routes/language')
 const categoryRouter = require('./routes/category')
 const wordRouter = require('./routes/word')
+const translationRouter = require('./routes/translation')
 
 app.use('/language', languageRouter)
 app.use('/category', categoryRouter)
 app.use('/word', wordRouter)
+app.use('/translation', translationRouter)
 
- app.listen(3000, () => console.log('server started')) 
+ app.listen(3001, () => console.log('server started')) 
