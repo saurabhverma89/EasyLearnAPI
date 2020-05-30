@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Language = require('../models/language')
+const Translation = require('../models/translation')
 
 router.get('/', async (req, res) => {
     try{
-        const languages =  await Language.find()
+        const languages =  await Language.find().sort( { LanguageName: 1 } )
         res.json(languages)
     }
     catch (err) {
@@ -32,13 +33,14 @@ router.post('/', ifLanguageNameExists(false), ifLanguageCodeExists(false), async
 })
 
 router.patch('/:id', ifLanguageNameExists(true), ifLanguageCodeExists(true), getLanguage, async (req, res) => {
-    if(req.body.LanguageName != null){
-        res.language.LanguageName = req.body.LanguageName
-    }
-    if(req.body.LanguageCode != null){
-        res.language.LanguageCode = req.body.LanguageCode
-    }
     try{
+        if(req.body.LanguageName != null){
+            res.language.LanguageName = req.body.LanguageName
+        }
+        if(req.body.LanguageCode != null){
+            res.language.LanguageCode = req.body.LanguageCode
+        }
+    
         const updatedLanguage = await res.language.save()
         res.json(updatedLanguage)
     }
@@ -47,7 +49,7 @@ router.patch('/:id', ifLanguageNameExists(true), ifLanguageCodeExists(true), get
     }
 })
 
-router.delete('/:id', getLanguage, async (req, res) => {
+router.delete('/:id/', getLanguage, async (req, res) => {
     try{
         await res.language.remove()
         res.json({message: 'Deleted Language'})

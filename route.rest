@@ -17,12 +17,12 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/language/5ecaa05bf52fa92cc8911145
+PATCH http://localhost:3001/language/5ec57602e5d63d79e20499e5
 Content-Type: application/json
 
 {
-    "LanguageName": "test",
-    "LanguageCode" : "hi"
+    "LanguageName": "English",
+    "LanguageCode" : "en12"
 } 
 
 ###

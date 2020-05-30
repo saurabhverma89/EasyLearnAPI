@@ -4,7 +4,7 @@ const Category = require('../models/category')
 
 router.get('/', async (req, res) => {
     try{
-        const category =  await Category.find()
+        const category =  await Category.find().sort( { CategoryName: 1 } )
         res.json(category)
     }
     catch (err) {

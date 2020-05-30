@@ -24,4 +24,4 @@ app.use('/category', categoryRouter)
 app.use('/word', wordRouter)
 app.use('/translation', translationRouter)
 
- app.listen(3001, () => console.log('server started')) 
+app.listen(3001, () => console.log('server started')) 

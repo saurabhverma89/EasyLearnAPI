@@ -5,7 +5,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 router.get('/', async (req, res) => {
     try{
-        const words =  await Word.find().populate('CategoryId')
+        const words =  await Word.find().populate('CategoryId').sort( { WordText: 1 } )
         res.json(words)
     }
     catch(err){
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 router.get('/Category/:id', async (req, res) => {
     try{
         let words
-        words =  await Word.find({CategoryId: ObjectId(req.params.id)}).populate('CategoryId')
+        words =  await Word.find({CategoryId: ObjectId(req.params.id)}).populate('CategoryId').sort( { WordText: 1 } )
         if(words == null || words.length == 0){
             return res.status(404).json({message : 'Cannot find Words for given Category'})
         }
