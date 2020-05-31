@@ -60,6 +60,16 @@ router.patch('/:id', ifWordExists(true), getWord, async (req, res) => {
     }
 })
 
+router.delete('/:id/', getWord, async (req, res) => {
+    try{
+        await res.Word.remove()
+        res.json({message: 'Deleted Word'})
+    }
+    catch(err){
+        res.status(500).json({ message: err.message })
+    }
+})
+
 async function getWord(req, res, next){
     let word
     try{
