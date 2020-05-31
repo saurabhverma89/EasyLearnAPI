@@ -51,6 +51,7 @@ router.patch('/:id', ifLanguageNameExists(true), ifLanguageCodeExists(true), get
 
 router.delete('/:id/', getLanguage, async (req, res) => {
     try{
+        await Translation.deleteMany({ "LanguageId": req.params.id})
         await res.language.remove()
         res.json({message: 'Deleted Language'})
     }

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Word = require('../models/word')
+const translation = require('../models/translation')
 const ObjectId = require('mongoose').Types.ObjectId; 
 
 router.get('/', async (req, res) => {
@@ -62,6 +63,7 @@ router.patch('/:id', ifWordExists(true), getWord, async (req, res) => {
 
 router.delete('/:id/', getWord, async (req, res) => {
     try{
+        await translation.deleteMany({ "WordId": req.params.id})
         await res.Word.remove()
         res.json({message: 'Deleted Word'})
     }

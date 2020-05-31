@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Category = require('../models/category')
+const word = require('../models/word')
+const translation = require('../models/translation')
 
 router.get('/', async (req, res) => {
     try{
@@ -44,6 +46,9 @@ router.patch('/:id', ifCategoryNameExists(true), getCategory, async (req, res) =
 
 router.delete('/:id', getCategory, async (req, res) => {
     try{
+        const words = await word.find({"CategoryId": req.params.id}, {_id: 1})
+        await translation.deleteMany({ "WordId": {$in : words} })
+        await word.deleteMany({ "CategoryId": req.params.id})
         await res.category.remove()
         res.json({message: 'Deleted Category'})
     }
