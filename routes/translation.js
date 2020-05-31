@@ -77,7 +77,9 @@ router.get('/:categoryid/:sourceLanguageId/:destLanguageId', async (req, res) =>
                     }
                 })
 
-                result.Translations.push(row)
+                if(row.Source != '' && row.Dest != ''){
+                    result.Translations.push(row)
+                }
             }
       })
     }
