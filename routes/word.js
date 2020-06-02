@@ -50,6 +50,9 @@ router.patch('/:id', ifWordExists(true), getWord, async (req, res) => {
         res.Word.CategoryId = req.body.CategoryId
     }
     if(req.body.WordText != null){
+        if(req.body.WordText != res.Word.WordText){
+            await translation.deleteMany({ "WordId": res.Word._id})
+        }
         res.Word.WordText = req.body.WordText
     }
     try{

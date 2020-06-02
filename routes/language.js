@@ -38,6 +38,9 @@ router.patch('/:id', ifLanguageNameExists(true), ifLanguageCodeExists(true), get
             res.language.LanguageName = req.body.LanguageName
         }
         if(req.body.LanguageCode != null){
+            if(res.language.LanguageCode != req.body.LanguageCode){
+                await Translation.deleteMany({ "LanguageId": res.language._id})
+            }
             res.language.LanguageCode = req.body.LanguageCode
         }
     

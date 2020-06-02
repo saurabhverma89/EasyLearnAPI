@@ -31,6 +31,7 @@ router.get('/:categoryid/:sourceLanguageId/:destLanguageId', async (req, res) =>
         await Language.findOne({ "_id" : sourceLanguageId}).then(language => {
             if(language != null){
                 result.SearchCriteria.SourceLanguage = language.LanguageName
+                result.SearchCriteria.SourceLanguageCode = language.LanguageCode
             }else{
                 return res.status(404).json({message : 'Cannot find Source Language'})
             }
@@ -44,6 +45,7 @@ router.get('/:categoryid/:sourceLanguageId/:destLanguageId', async (req, res) =>
         await Language.findOne({ "_id" : destLanguageId}).then(language => {
             if(language != null){
                 result.SearchCriteria.DestLanguage = language.LanguageName
+                result.SearchCriteria.DestLanguageCode = language.LanguageCode
             }
             else{
                 return res.status(404).json({message : 'Cannot find Destination Language'})
