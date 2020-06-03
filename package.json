@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {  
+  "scripts": {
     "start": "node server.js",
     "devStart": "nodemon server.js"
   },
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/saurabhverma89/EasyLearnAPI#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "googletrans": "^1.0.0",
     "mongoose": "^5.9.15",
     "mongoose-regex-search": "^0.8.24"
   },
