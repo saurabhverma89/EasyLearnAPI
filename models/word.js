@@ -16,8 +16,8 @@ const wordSchema = new schema({
         type: String,
         required: true,
         validate: [{
-            validator: v => validations.maxLengthValidator(v, 20),
-            message: props => `${props.path} exceeds maximum length (${props.value.length}/20)`
+            validator: v => validations.maxLengthValidator(v, 30),
+            message: props => `${props.path} exceeds maximum length (${props.value.length}/30)`
         }]
     }
 })

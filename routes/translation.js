@@ -43,6 +43,7 @@ router.get('/:categoryid/:sourceLanguageId/:destLanguageId/:selectedLanguageId',
     try{
         await Language.findOne({ "_id" : sourceLanguageId}).then(async language => {
             if(language != null){
+                result.SearchCriteria.SourceLanguageId = language._id
                 result.SearchCriteria.SourceLanguage = language.LanguageName
                 result.SearchCriteria.SourceLanguageCode = language.LanguageCode
                 const rg = new RegExp("^" + language.LanguageName + "$", "i")
@@ -111,6 +112,14 @@ router.get('/:categoryid/:sourceLanguageId/:destLanguageId/:selectedLanguageId',
                         row.Dest = t[0].Text
                     }else{
                         row.Dest = ''
+                    }
+                })
+
+                await Translation.find({ "WordId" : word._id, "LanguageId" : selectedLanguageId }).then(t => {
+                    if(t != null && t.length > 0){
+                        row.Selected = t[0].Text
+                    }else{
+                        row.Selected = ''
                     }
                 })
 
