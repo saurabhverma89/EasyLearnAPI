@@ -19,12 +19,14 @@ const categoryRouter = require('./routes/category')
 const wordRouter = require('./routes/word')
 const translationRouter = require('./routes/translation')
 const translatorRouter = require('./routes/translator')
+const languageWithNativeName = require('./routes/languageWithNativeName')
 
 app.use('/language', languageRouter)
 app.use('/category', categoryRouter)
 app.use('/word', wordRouter)
 app.use('/translation', translationRouter)
 app.use('/translator', translatorRouter)
+app.use('/languageWithNativeName', languageWithNativeName)
 
 app.listen(process.env.PORT || 3001, () => console.log('server started')) 
 
