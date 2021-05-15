@@ -69,6 +69,7 @@ router.get('/:categoryid/:sourceLanguageId/:destLanguageId/:selectedLanguageId',
     try{
         await Language.findOne({ "_id" : destLanguageId}).then(async language => {
             if(language != null){
+                result.SearchCriteria.DestLanguageId = language._id
                 result.SearchCriteria.DestLanguage = language.LanguageName
                 result.SearchCriteria.DestLanguageCode = language.LanguageCode
                 const rg = new RegExp("^" + language.LanguageName + "$", "i")
